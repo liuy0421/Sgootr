@@ -1,0 +1,4 @@
+CRC01: 
+    methylated_rc: /data/CDSLSahinalp/131k_196cell_uncorrected_read/CRC01_met_read_count_mat.npz
+    unmethylated_rc: /data/CDSLSahinalp/131k_196cell_uncorrected_read/CRC01_unmet_read_count_mat.npz
+    cna: 
