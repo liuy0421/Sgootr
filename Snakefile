@@ -22,7 +22,8 @@ rule qc:
     output:
         temp("{patient}/qc_rc_cna.npz")
     params:
-        default_cna=2
+        default_cna=2,
+        coverage_threshold=.66
     log:
         "{patient}/logs/qc.log"
     script:
@@ -44,17 +45,17 @@ rule error_correction:
         "scripts/error_correction.py"
 
 '''
-rule filter:
+rule post_filter:
     input:
         "{patient}/corrected_rc_cna.npz"
     output:
         protected("{patient}/t0.npz")
     params: 
-        homogeneity_pi=.98
+        homogeneity_pi=.99
     log:
-        "{patient}/logs/filter.log"
+        "{patient}/logs/post_filter.log"
     script:
-        "scripts/filter.py"
+        "scripts/post_filter.py"
 
 rule prune:
     input:

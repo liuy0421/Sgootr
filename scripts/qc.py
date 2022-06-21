@@ -5,10 +5,11 @@
 import sys, numpy as np
 from datetime import datetime
 
-f = open(snakemake.log[0], 'w')
-sys.stderr = sys.stdout = f
 
 if __name__ == "__main__":
+
+    f = open(snakemake.log[0], 'w')
+    sys.stderr = sys.stdout = f
 
     f.write('[{}] gmelin-larch is filtering your input' \
             ' matrices\n'.format(datetime.now()))
@@ -35,12 +36,20 @@ if __name__ == "__main__":
     else:
         cna = np.full(methylated_reads['m'].shape, snakemake.params.default_cna, \
                       dtype=int)
+    
+    N, M, cells, sites = methylated_reads['m'], unmethylated_reads['m'], \
+                         methylated_reads['rows'], methylated_reads['cols']
 
-    # TODO: Quality control for sites and cells
+    site_coverage = np.sum(~np.isnan(N), axis=0)
+    cell_threshold = int(float(snakemake.params.coverage_threshold) * cells.shape[0]) 
+    selected_sites = site_coverage >= cell_threshold
 
-    np.savez(snakemake.output[0], n=methylated_reads['m'], \
-             m=unmethylated_reads['m'], rows=methylated_reads['rows'], \
-             cols=methylated_reads['cols'], cna=cna)
+    f.write('[{}] selected the {} sites that are present in more than {}/{} (66% of) ' \
+            'cells\n'.format(datetime.now(), np.sum(selected_sites), cell_threshold, \
+                           cells.shape[0]))
 
-f.write('[{}] DONE\n'.format(datetime.now()))
-f.close()
+    np.savez(snakemake.output[0], n=N[:,selected_sites], m=M[:,selected_sites], \
+             rows=cells, cols=sites[selected_sites], cna=cna[:,selected_sites])
+
+    f.write('[{}] DONE\n'.format(datetime.now()))
+    f.close()
