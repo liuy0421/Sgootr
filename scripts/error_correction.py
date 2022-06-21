@@ -64,7 +64,6 @@ def sequencing_error_correction(i,j,n,m,c,e):
     arr_n = get_np_view_of_buffer(*sb_methylated)
     arr_m = get_np_view_of_buffer(*sb_unmethylated)
     
-
     if c == 0:
         arr_n[i,j], arr_m[i,j] = np.nan, np.nan 
         return 1, 1

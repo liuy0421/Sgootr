@@ -38,8 +38,8 @@ if __name__ == "__main__":
 
     # TODO: Quality control for sites and cells
 
-    np.savez(snakemake.output[0], m=methylated_reads['m'], \
-             n=unmethylated_reads['m'], rows=methylated_reads['rows'], \
+    np.savez(snakemake.output[0], n=methylated_reads['m'], \
+             m=unmethylated_reads['m'], rows=methylated_reads['rows'], \
              cols=methylated_reads['cols'], cna=cna)
 
 f.write('[{}] DONE\n'.format(datetime.now()))
