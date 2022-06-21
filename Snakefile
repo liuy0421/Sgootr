@@ -1,12 +1,12 @@
 configfile: "config.yaml"
-
+'''
 rule all:
     input:
-        dynamic(expand("{patient}/iterations/scores{i}.npz", patient=config.keys))
-        dynamic(expand("{patient}/iterations/t{i}.nwk", patient=config.keys))
-        expand("{patient}/final.nwk", patient=config.keys)
+        dynamic(expand("{patient}/iterations/scores{i}.npz", patient=config.keys)),
+        dynamic(expand("{patient}/iterations/t{i}.nwk", patient=config.keys)),
+        expand("{patient}/final.nwk", patient=config.keys),
         expand("{patient}/sites.npz", patient=config.keys)
-
+'''
 # CNA input is optional
 def get_qc_input(wildcards):
     if config[wildcards.patient]['cna'] == None:
@@ -28,6 +28,7 @@ rule qc:
     script:
         "scripts/qc.py"
 
+
 rule error_correction:
     input:
         "{patient}/qc_rc_cna.npz"
@@ -36,12 +37,13 @@ rule error_correction:
     params:
         e=.01
     threads: 
-        64
+        4
     log:
         "{patient}/logs/error_correction.log"
     script:
         "scripts/error_correction.py"
 
+'''
 rule filter:
     input:
         "{patient}/corrected_rc_cna.npz"
@@ -58,9 +60,9 @@ rule prune:
     input:
         "{patient}/t0.npz"
     output:
-        dynamic("{patient}/iterations/scores{i}.npz")
-        dynamic("{patient}/iterations/t{i}.nwk")
-        "{patient}/final.nwk"
+        dynamic("{patient}/iterations/scores{i}.npz"),
+        dynamic("{patient}/iterations/t{i}.nwk"),
+        "{patient}/final.nwk",
         "{patient}/sites.npz"
     params:
         pruning_fraction=.05
@@ -71,4 +73,4 @@ rule prune:
     script:
         "scripts/prune.py"
 
-
+'''

@@ -3,13 +3,15 @@
 '''
 
 import sys, numpy as np
+from datetime import datetime
 
 f = open(snakemake.log[0], 'w')
 sys.stderr = sys.stdout = f
 
 if __name__ == "__main__":
 
-    f.write('..gmelin-larch is filtering your input matrices')
+    f.write('[{}] gmelin-larch is filtering your input' \
+            ' matrices\n'.format(datetime.now()))
 
     methylated_reads = np.load(snakemake.input[0], allow_pickle=True)
     unmethylated_reads = np.load(snakemake.input[1], allow_pickle=True)
@@ -40,5 +42,5 @@ if __name__ == "__main__":
              n=unmethylated_reads['m'], rows=methylated_reads['rows'], \
              cols=methylated_reads['cols'], cna=cna)
 
-f.write('[DONE]')
+f.write('[{}] DONE\n'.format(datetime.now()))
 f.close()
