@@ -40,6 +40,7 @@ if __name__ == "__main__":
     N, M, cells, sites = methylated_reads['m'], unmethylated_reads['m'], \
                          methylated_reads['rows'], methylated_reads['cols']
 
+    '''
     site_coverage = np.sum(~np.isnan(N), axis=0)
     cell_threshold = int(float(snakemake.params.coverage_threshold) * cells.shape[0]) 
     selected_sites = site_coverage >= cell_threshold
@@ -47,9 +48,8 @@ if __name__ == "__main__":
     f.write('[{}] selected the {} sites that are present in more than {}/{} (66% of) ' \
             'cells\n'.format(datetime.now(), np.sum(selected_sites), cell_threshold, \
                            cells.shape[0]))
-
-    np.savez(snakemake.output[0], n=N[:,selected_sites], m=M[:,selected_sites], \
-             rows=cells, cols=sites[selected_sites], cna=cna[:,selected_sites])
+    '''
+    np.savez(snakemake.output[0], n=N, m=M, rows=cells, cols=sites, cna=cna)
 
     f.write('[{}] DONE\n'.format(datetime.now()))
     f.close()

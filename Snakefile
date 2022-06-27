@@ -34,7 +34,7 @@ rule error_correction:
     input:
         "{patient}/qc_rc_cna.npz"
     output:
-        temp("{patient}/corrected_rc_cna.npz")
+        "{patient}/corrected_rc_cna.npz"
     params:
         e=.01
     threads: 
@@ -44,19 +44,25 @@ rule error_correction:
     script:
         "scripts/error_correction.py"
 
-'''
+def get_post_filter_input(wildcards):
+
+    return "{}/corrected_rc_cna.npz".format(wildcards.patient), \
+           config[wildcards.patient]['whitelist']
+
 rule post_filter:
     input:
-        "{patient}/corrected_rc_cna.npz"
+        get_post_filter_input
     output:
-        protected("{patient}/t0.npz")
+        "{patient}/t0.npz"
     params: 
-        homogeneity_pi=.99
+        site_coverage_threshold=.66,
+        cell_coverage_threshold=.5
     log:
         "{patient}/logs/post_filter.log"
     script:
         "scripts/post_filter.py"
 
+'''
 rule prune:
     input:
         "{patient}/t0.npz"

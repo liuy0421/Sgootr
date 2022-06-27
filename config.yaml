@@ -1,4 +1,5 @@
 CRC01: 
-    methylated_rc: /data/CDSLSahinalp/bian-colorectal/131k_196cell_uncorrected_read/CRC01_met_read_count_mat.npz
-    unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/131k_196cell_uncorrected_read/CRC01_unmet_read_count_mat.npz
-    cna: /data/CDSLSahinalp/bian-colorectal/CNA_call/131k_CNA_calls.npz 
+    methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_met_read_count_mat_uncorr.npz
+    unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_unmet_read_count_mat_uncorr.npz
+    cna: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CpG_CNA_calls.npz
+    whitelist: /data/CDSLSahinalp/yuelin/CRC01_whitelist.txt
