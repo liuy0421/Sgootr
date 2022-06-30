@@ -44,6 +44,7 @@ rule error_correction:
     script:
         "scripts/error_correction.py"
 
+
 def get_post_filter_input(wildcards):
 
     return "{}/corrected_rc_cna.npz".format(wildcards.patient), \
@@ -53,7 +54,7 @@ rule post_filter:
     input:
         get_post_filter_input
     output:
-        "{patient}/t0.npz"
+        "{patient}/input.npz"
     params: 
         site_coverage_threshold=.66,
         cell_coverage_threshold=.5
@@ -62,19 +63,42 @@ rule post_filter:
     script:
         "scripts/post_filter.py"
 
+
+rule iteration_setup:
+    input: 
+        "{patient}/input.npz"
+    output:
+        "{patient}/site_mask.npz",
+        "{patient}/heuristically_called_statuses.npz",
+        "{patient}/status_likelihoods.npz"
+    threads:
+        4
+    params:
+        status_confidence_threshold=2,
+        p00=.33,
+        p10=.33,
+        p11=.33,
+        p=.5
+    log:
+        "{patient}/logs/iteration_setup.log"
+    script:
+        "scripts/iteration_setup.py"
+
 '''
 rule prune:
     input:
-        "{patient}/t0.npz"
+        "{patient}/input.npz"
     output:
         dynamic("{patient}/iterations/scores{i}.npz"),
         dynamic("{patient}/iterations/t{i}.nwk"),
         "{patient}/final.nwk",
         "{patient}/sites.npz"
     params:
-        pruning_fraction=.05
+        kappa=.1,
+        max_iter=20,
+        root=NC_507
     threads:
-        64
+        4
     log:
         "{patient}/logs/prune.log"
     script:
