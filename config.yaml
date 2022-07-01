@@ -1,5 +1,21 @@
+DEFAULT_CNA: 2
+E: .01
+SITE_COVERAGE_THRESHOLD: .66
+CELL_COVERAGE_THRESHOLD: .5
+STATUS_CONFIDENCE_THRESHOLD: 2
+P00: .33
+P10: .33
+P11: .33
+P: .5
+D0010: .5
+D0011: 1
+D1011: .5
+MAX_ITER: 20
+KAPPA: .1
+
 CRC01: 
     methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_met_read_count_mat_uncorr.npz
     unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_unmet_read_count_mat_uncorr.npz
     cna: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CpG_CNA_calls.npz
     whitelist: /data/CDSLSahinalp/yuelin/CRC01_whitelist.txt
+    root: NC_507

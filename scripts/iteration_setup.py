@@ -174,7 +174,8 @@ if __name__ == "__main__":
 
     f.write('[{}] done computing status likelihood, writing to ' \
             'output\n'.format(datetime.now()))
-    np.savez(snakemake.output[2], s00=arr_s00, s10=arr_s10, s11=arr_s11)
+    np.savez(snakemake.output[2], p00=arr_s00, p10=arr_s10, p11=arr_s11, \
+             rows=cells, cols=sites)
 
 
     f.write('[{}] DONE\n'.format(datetime.now()))
