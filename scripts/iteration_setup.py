@@ -138,7 +138,7 @@ if __name__ == "__main__":
     _D = _N + _M
     _R = _N / _D
     _R[(_R > 0) & (_R < 1)] = .5
-    _R[_D >= sct] = np.nan # need at least sct reads to call status
+    _R[_D < sct] = np.nan # need at least sct reads to call status
     np.savez(snakemake.output[1], s=_R)
 
 

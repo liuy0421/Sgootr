@@ -49,18 +49,7 @@ def get_total_distance(i,j, d0010, d0011, d1011):
     total_dist = np.sum(ds) / shared_sites.shape[0]
     arr_pwd[i,j], arr_pwd[j,i] = total_dist, total_dist
 
-    return total_dist
-
-
-def build_and_reroot(dm, root):
-
-    unrooted_tree = skbio.tree.nj(dm)
-    tree = unrooted_tree.find(root).parent
-    root_node = [x for x in tree.children if x.name == root][0]
-    tree.remove(root_node)
-
-    return tree
-
+    return
 
 
 if __name__ == "__main__":
@@ -71,7 +60,7 @@ if __name__ == "__main__":
     f.write('[{}] gmelin-larch is iteratively constructing ' \
             'the methylation phylogeny\n'.format(datetime.now()))
 
-    mask = np.load(snakemake.input[2], allow_pickle=True)['mask']==np.inf
+    mask = np.load(snakemake.input[0], allow_pickle=True)['mask']==np.inf
     obj = np.load(snakemake.input[1], allow_pickle=True)
     _p00, _p10, _p11, cells, sites = obj['p00'][:,mask], obj['p10'][:,mask], \
                                      obj['p11'][:,mask], obj['rows'], obj['cols']
@@ -87,17 +76,6 @@ if __name__ == "__main__":
     f.write('[{}] distance between homozygous unmethylated alleles and' \
             'homozygous methylated alleles: {}\n'.format(datetime.now(), d0011))
  
-    kappa = float(snakemake.params.kappa)
-    root = str(snakemake.params.root)
-    assert (kappa > 0) and (kappa < 1), 'Kappa must be a fraction.'
-    assert root in cells, 'Selected root not in the input set of cells.'
-
-    f.write('[{}] pruning fraction is {}, and cell {} will be used ' \
-            'to root the tree\n'.format(datetime.now(), kappa, root))
-
-    ####
-    #   1. compute pairwise expected distances
-    ####
     f.write('[{}] computing pairwise expected distances\n'.format(datetime.now()))
 
     jobs = enumerate_jobs(cells.shape[0], d0010, d0011, d1011)
@@ -131,29 +109,7 @@ if __name__ == "__main__":
     ps.join()
 
     np.savez(snakemake.output[0], pwd=arr_pwd, rows=cells)
-    ####
-    #   2. construct tree with neighbor-joining (Saitou & Nei, 1987)
-    ####
-    '''
-    f.write('[{}] done computing pairwise expected distances, constructing '
-            'neighbor-joining tree\n'.format(datetime.now()))
-    dm = skbio.DistanceMatrix(arr_pwd, cells)
-    tree = build_and_reroot(dm, root)
 
-    with open(snakemake.output[0], 'w') as fi:
-        fi.write(str(tree))
-    '''
-        #TODO
-
-        #TODO
-        # 3a. compute pair-wise distances
-        # 3b. run NJ to get (rooted) nwk
-        # 3c. generate visualization w/R
-        # 3d. if round > 0, compute RF distance from last tree
-        # 3e. if round < max_iter, for each site, compute persistence score, 
-        #     and create site mask for selected/pruned sites for the following
-        #     iteration
-    
 
     f.write('[{}] DONE\n'.format(datetime.now()))
     f.close()

@@ -1,5 +1,5 @@
 '''
-    qc.py <methylated_rc.npz> <unmethylated_rc.npz> <[optional]cna>
+    data_setup.py <methylated_rc.npz> <unmethylated_rc.npz> <[optional]cna>
 '''
 
 import sys, numpy as np
