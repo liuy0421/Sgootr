@@ -115,7 +115,7 @@ if __name__ == "__main__":
     #      final tree persistence score  
     ####
     persistence_scores = np.nanmax(arr_mps, axis=0)
-    no_scores = np.sum(np.isnan(persistence_scores))
+    no_scores = np.sum(np.isnan(persistence_scores[mask]))
     persistence_scores[~mask] = np.nan
 
     f.write('[{}] done computing persistence scores ({}/{} sites have no scores)' \
@@ -129,7 +129,8 @@ if __name__ == "__main__":
     scores = persistence_scores.copy()
     scores.sort()
     cutoff = scores[int(np.sum(~np.isnan(scores))*kappa)]
-    pruned = persistence_scores <= cutoff
+    pruned = (persistence_scores <= cutoff) | \
+             (np.isnan(persistence_scores) & mask)
 
     if np.sum(mask) == mask.shape[0]: # if at iteration 0
         iteration = 0

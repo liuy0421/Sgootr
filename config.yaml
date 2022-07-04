@@ -20,3 +20,9 @@ CRC01:
     cna: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CpG_CNA_calls.npz
     whitelist: /data/CDSLSahinalp/yuelin/CRC01_whitelist.txt
     root: NC_507
+    palette: #!r c("NC"="#A7A7A7","LN"="#EF8432","PT"="#487DB2","ML"="#D1342B","MP"="#68AC57")
+        NC: "#A7A7A7"
+        LN: "#EF8432"
+        PT: "#487DB2"
+        ML: "#D1342B"
+        MP: "#68AC57"

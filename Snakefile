@@ -138,7 +138,7 @@ rule prune:
         "{patient}/t{i}_site_mask.npz"
     params:
         kappa = config['KAPPA'],
-        partition_validity_threshold= config['PARTITION_VALIDITY_THRESHOLD']
+        partition_validity_threshold = config['PARTITION_VALIDITY_THRESHOLD']
     threads:
         4
     log:
@@ -150,8 +150,16 @@ rule prune:
         "{params.partition_validity_threshold} {threads} {log}"
 
 
-
-
+rule visualize:
+    input:
+        "{patient}/t{i}.nwk",
+        "{patient}/input.npz"
+    output:
+        "{patient}/t{i}.png"
+    params:
+        palette = lambda ws: config[ws.patient]['palette']
+    script:
+        "scripts/visualize_tree.R"
 
 
 

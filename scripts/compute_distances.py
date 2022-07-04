@@ -26,7 +26,7 @@ def enumerate_jobs(n_cells, d0010, d0011, d1011):
     return [(i, j, d0010, d0011, d1011) for (i,j) in entries]
 
 
-def get_total_distance(i,j, d0010, d0011, d1011):
+def get_total_distance(i, j, d0010, d0011, d1011):
 
     arr_pwd = get_np_view_of_buffer(*sb_pwd)
     arr_p00 = get_np_view_of_buffer(*sb_p00)
@@ -52,6 +52,7 @@ def get_total_distance(i,j, d0010, d0011, d1011):
     return
 
 
+
 if __name__ == "__main__":
 
     f = open(snakemake.log[0], 'w')
@@ -60,7 +61,7 @@ if __name__ == "__main__":
     f.write('[{}] gmelin-larch is iteratively constructing ' \
             'the methylation phylogeny\n'.format(datetime.now()))
 
-    mask = (np.load(snakemake.input[0], allow_pickle=True)['mask']==np.inf)
+    mask = np.isinf(np.load(snakemake.input[0], allow_pickle=True)['mask'])
     obj = np.load(snakemake.input[1], allow_pickle=True)
     _p00, _p10, _p11, cells, sites = obj['p00'][:,mask], obj['p10'][:,mask], \
                                      obj['p11'][:,mask], obj['rows'], obj['cols']
@@ -104,6 +105,8 @@ if __name__ == "__main__":
         ps.terminate()
         ps.join()
         sys.exit(1)
+
+    assert (arr_pwd==arr_pwd.T).all(), 'distance matrix not symmetric'
 
     ps.close()
     ps.join()
