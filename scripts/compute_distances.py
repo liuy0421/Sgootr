@@ -60,7 +60,7 @@ if __name__ == "__main__":
     f.write('[{}] gmelin-larch is iteratively constructing ' \
             'the methylation phylogeny\n'.format(datetime.now()))
 
-    mask = np.load(snakemake.input[0], allow_pickle=True)['mask']==np.inf
+    mask = (np.load(snakemake.input[0], allow_pickle=True)['mask']==np.inf)
     obj = np.load(snakemake.input[1], allow_pickle=True)
     _p00, _p10, _p11, cells, sites = obj['p00'][:,mask], obj['p10'][:,mask], \
                                      obj['p11'][:,mask], obj['rows'], obj['cols']

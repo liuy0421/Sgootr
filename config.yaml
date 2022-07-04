@@ -12,6 +12,7 @@ D0011: 1
 D1011: .5
 MAX_ITER: 20
 KAPPA: .1
+PARTITION_VALIDITY_THRESHOLD: .5
 
 CRC01: 
     methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_met_read_count_mat_uncorr.npz

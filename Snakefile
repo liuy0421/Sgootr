@@ -1,4 +1,5 @@
 configfile: "config.yaml"
+ruleorder: iteration_setup > prune
 
 # CNA input is optional
 def get_data_setup_input(ws):
@@ -95,11 +96,23 @@ rule compute_distances:
         "scripts/compute_distances.py"
 
 
+def get_build_tree_input(ws):
+
+    i = int(ws.i)
+    
+    if i == 0:
+        return ws.patient+"/t0_pairwise_distances.npz"
+    elif i > 0:
+        return ws.patient+"/t{}_pairwise_distances.npz".format(i), \
+               ws.patient+"/t{}.nwk".format(i-1),\
+               ws.patient+"/t{}_RF.txt".format(i-1)
+
 rule build_tree:
     input:
-        "{patient}/t{i}_pairwise_distances.npz"
+        get_build_tree_input
     output:
-        "{patient}/t{i}.nwk"
+        "{patient}/t{i}.nwk",
+        "{patient}/t{i}_RF.txt"
     params:
         root = lambda ws: config[ws.patient]['root']
     log:
@@ -108,6 +121,37 @@ rule build_tree:
         "gmelin-larch"
     shell:
         "python scripts/build_tree.py {input} {output} {params.root} {log}"
+
+
+def get_prune_input(ws):
+
+    i = int(ws.i)
+
+    return ws.patient+"/t{}.nwk".format(i-1), \
+           ws.patient+"/t{}_site_mask.npz".format(i-1), \
+           ws.patient+"/heuristically_called_statuses.npz"
+
+rule prune:
+    input:
+        get_prune_input
+    output:
+        "{patient}/t{i}_site_mask.npz"
+    params:
+        kappa = config['KAPPA'],
+        partition_validity_threshold= config['PARTITION_VALIDITY_THRESHOLD']
+    threads:
+        4
+    log:
+        "{patient}/logs/t{i}_prune.log"
+    conda:
+        "gmelin-larch"
+    shell:
+        "python scripts/prune.py {input} {output} {params.kappa} " \ 
+        "{params.partition_validity_threshold} {threads} {log}"
+
+
+
+
 
 
 
