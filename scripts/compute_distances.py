@@ -106,8 +106,6 @@ if __name__ == "__main__":
         ps.join()
         sys.exit(1)
 
-    assert (arr_pwd==arr_pwd.T).all(), 'distance matrix not symmetric'
-
     ps.close()
     ps.join()
 

@@ -1,14 +1,24 @@
 configfile: "config.yaml"
 ruleorder: iteration_setup > prune
 
+PATIENTS=list(config['PATIENTS'].keys())
+
+rule all:
+    input:
+        *[expand("{patient}/t{i}/{labels}.png",  patient=PATIENT, 
+                                                 i=range(config['MAX_ITER']+1),
+                                                 labels=list(config['PATIENTS'][PATIENT]['palette'].keys()))
+          for PATIENT in PATIENTS]
+
+
 # CNA input is optional
 def get_data_setup_input(ws):
-    if config[ws.patient]['cna'] == None:
-        return config[ws.patient]['methylated_rc'], \
-               config[ws.patient]['unmethylated_rc']
-    return config[ws.patient]['methylated_rc'], \
-           config[ws.patient]['unmethylated_rc'], \
-           config[ws.patient]['cna']
+    if config['PATIENTS'][ws.patient]['cna'] == None:
+        return config['PATIENTS'][ws.patient]['methylated_rc'], \
+               config['PATIENTS'][ws.patient]['unmethylated_rc']
+    return config['PATIENTS'][ws.patient]['methylated_rc'], \
+           config['PATIENTS'][ws.patient]['unmethylated_rc'], \
+           config['PATIENTS'][ws.patient]['cna']
 
 rule data_setup:
     input:
@@ -115,7 +125,7 @@ rule build_tree:
         "{patient}/t{i}/tree.nwk",
         "{patient}/t{i}/RF.txt"
     params:
-        root = lambda ws: config[ws.patient]['root']
+        root = lambda ws: config['PATIENTS'][ws.patient]['root']
     log:
         "{patient}/logs/t{i}/build_tree.log"
     conda:
@@ -155,7 +165,7 @@ rule prune:
 def get_visualize_input(ws):
 
     return "{}/t{}/tree.nwk".format(ws.patient, ws.i), \
-           config[ws.patient]["labels"]
+           config['PATIENTS'][ws.patient]["labels"]
 
 rule visualize:
     input:
@@ -163,7 +173,7 @@ rule visualize:
     output:
         "{patient}/t{i}/{labels}.png"        
     params:
-        palette = lambda ws: config[ws.patient]['palette'][ws.labels],
+        palette = lambda ws: config['PATIENTS'][ws.patient]['palette'][ws.labels],
         color_by = "{labels}" 
     script:
         "scripts/visualize_tree.R"
