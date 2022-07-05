@@ -48,9 +48,10 @@ if __name__ == "__main__":
     # work-around for snakemake env bug
     at_t0 = (len(sys.argv) == 6)
     if at_t0:
-        f_pwd, f_out_nwk, f_out_rf, root, f_log = sys.argv[1:]
+        f_out_nwk, f_out_rf, root, f_log, f_pwd = sys.argv[1:]
     else:
-        f_pwd, f_old_nwk, f_old_rf, f_out_nwk, f_out_rf, root, f_log = sys.argv[1:] 
+        f_out_nwk, f_out_rf, root, f_log, f_pwd, f_old_rf = sys.argv[1:7]
+        f_old_nwks = sys.argv[7:] 
 
     f = open(f_log, 'w')
     sys.stderr = sys.stdout = f
@@ -79,13 +80,14 @@ if __name__ == "__main__":
             fi.write('')
     else:
 
-        rf_dist = compute_rf_distance(tree, skbio.TreeNode.read(f_old_nwk))
+        rf_dists = [str(compute_rf_distance(tree, skbio.TreeNode.read(old_tree))) \
+                    for old_tree in f_old_nwks]
    
         with open(f_old_rf, 'r') as fi:
             old_rf = fi.readlines()
         with open(f_out_rf, 'w') as fi:
             fi.write(''.join(old_rf))
-            fi.write('{}\n'.format(rf_dist))
+            fi.write('{}\n'.format('\t'.join(rf_dists)))
             
 
     f.write('[{}] DONE\n'.format(datetime.now()))

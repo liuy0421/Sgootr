@@ -61,7 +61,7 @@ rule iteration_setup:
     input: 
         "{patient}/input.npz"
     output:
-        "{patient}/t0_site_mask.npz",
+        "{patient}/t0/site_mask.npz",
         "{patient}/heuristically_called_statuses.npz",
         "{patient}/status_likelihoods.npz"
     threads:
@@ -80,10 +80,10 @@ rule iteration_setup:
 
 rule compute_distances:
     input:
-        "{patient}/t{i}_site_mask.npz",
+        "{patient}/t{i}/site_mask.npz",
         "{patient}/status_likelihoods.npz"
     output:
-        "{patient}/t{i}_pairwise_distances.npz"
+        "{patient}/t{i}/pairwise_distances.npz"
     params:
         d0010 = config['D0010'],
         d0011 = config['D0011'],
@@ -91,7 +91,7 @@ rule compute_distances:
     threads:
         4
     log:
-        "{patient}/logs/t{i}_compute_distances.log"
+        "{patient}/logs/t{i}/compute_distances.log"
     script:
         "scripts/compute_distances.py"
 
@@ -99,50 +99,52 @@ rule compute_distances:
 def get_build_tree_input(ws):
 
     i = int(ws.i)
-    
+    nwks = [ws.patient+"/t{}/tree.nwk".format(round) for round in range(i)]    
+
     if i == 0:
-        return ws.patient+"/t0_pairwise_distances.npz"
+        return ws.patient+"/t0/pairwise_distances.npz"
     elif i > 0:
-        return ws.patient+"/t{}_pairwise_distances.npz".format(i), \
-               ws.patient+"/t{}.nwk".format(i-1),\
-               ws.patient+"/t{}_RF.txt".format(i-1)
+        return ws.patient+"/t{}/pairwise_distances.npz".format(i), \
+               ws.patient+"/t{}/RF.txt".format(i-1), \
+               *nwks
 
 rule build_tree:
     input:
         get_build_tree_input
     output:
-        "{patient}/t{i}.nwk",
-        "{patient}/t{i}_RF.txt"
+        "{patient}/t{i}/tree.nwk",
+        "{patient}/t{i}/RF.txt"
     params:
         root = lambda ws: config[ws.patient]['root']
     log:
-        "{patient}/logs/t{i}_build_tree.log"
+        "{patient}/logs/t{i}/build_tree.log"
     conda:
         "gmelin-larch"
     shell:
-        "python scripts/build_tree.py {input} {output} {params.root} {log}"
+        "python scripts/build_tree.py {output} {params.root} {log} {input}"
 
 
 def get_prune_input(ws):
 
     i = int(ws.i)
+    nwks = [ws.patient+"/t{}/tree.nwk".format(round) for round in range(i)]    
 
-    return ws.patient+"/t{}.nwk".format(i-1), \
-           ws.patient+"/t{}_site_mask.npz".format(i-1), \
+    return ws.patient+"/t{}/tree.nwk".format(i-1), \
+           ws.patient+"/t{}/site_mask.npz".format(i-1), \
            ws.patient+"/heuristically_called_statuses.npz"
 
 rule prune:
     input:
         get_prune_input
     output:
-        "{patient}/t{i}_site_mask.npz"
+        "{patient}/t{i}/site_mask.npz"
     params:
         kappa = config['KAPPA'],
         partition_validity_threshold = config['PARTITION_VALIDITY_THRESHOLD']
     threads:
         4
     log:
-        "{patient}/logs/t{i}_prune.log"
+        "{patient}/logs/t{i}/prune.log"
     conda:
         "gmelin-larch"
     shell:
@@ -150,14 +152,19 @@ rule prune:
         "{params.partition_validity_threshold} {threads} {log}"
 
 
+def get_visualize_input(ws):
+
+    return "{}/t{}/tree.nwk".format(ws.patient, ws.i), \
+           config[ws.patient]["labels"]
+
 rule visualize:
     input:
-        "{patient}/t{i}.nwk",
-        "{patient}/input.npz"
+        get_visualize_input
     output:
-        "{patient}/t{i}.png"
+        "{patient}/t{i}/{labels}.png"        
     params:
-        palette = lambda ws: config[ws.patient]['palette']
+        palette = lambda ws: config[ws.patient]['palette'][ws.labels],
+        color_by = "{labels}" 
     script:
         "scripts/visualize_tree.R"
 

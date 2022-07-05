@@ -20,9 +20,28 @@ CRC01:
     cna: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CpG_CNA_calls.npz
     whitelist: /data/CDSLSahinalp/yuelin/CRC01_whitelist.txt
     root: NC_507
-    palette: #!r c("NC"="#A7A7A7","LN"="#EF8432","PT"="#487DB2","ML"="#D1342B","MP"="#68AC57")
-        NC: "#A7A7A7"
-        LN: "#EF8432"
-        PT: "#487DB2"
-        ML: "#D1342B"
-        MP: "#68AC57"
+    labels: /data/CDSLSahinalp/yuelin/CRC01_labels.csv
+    palette:
+        lesion:
+            NC: "#A7A7A7"
+            LN: "#EF8432"
+            PT: "#487DB2"
+            ML: "#D1342B"
+            MP: "#68AC57"
+        sampling_location:
+            NC: "#A7A7A7"
+            LN1: "#F8CA98"
+            LN2: "#F38419"
+            PT1: "#AFD1F2"
+            PT2: "#739CC5"
+            PT3: "#42719F"
+            PT4: "#205183"
+            ML1: "#E8A9A8"
+            ML2: "#CC3426"
+            ML3: "#B94C47"
+            ML4: "#89221B"
+            MP1: "#DBF7D4"
+            MP2: "#9EF185"
+            MP3: "#4FB31A"
+            MP4: "#489C22"
+            MP5: "#32780D"

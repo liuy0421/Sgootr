@@ -1,24 +1,17 @@
 suppressMessages(library(ggplot2));
 suppressMessages(library(ggtree));
 suppressMessages(library(treeio));
-suppressMessages(library(reticulate));
-np <- import('numpy');
 
 nwk <- read.newick(snakemake@input[[1]]);
-cells <- np$load(snakemake@input[[2]])$f[["rows"]];
+labels <- read.csv(snakemake@input[[2]]);
 png <- snakemake@output[[1]];
 palette <- snakemake@params$palette;
+color_by <- snakemake@params$color_by;
 
-d <- data.frame(label = 0:(length(cells)-1), 
-                cells = cells, 
-                lesions = substr(cells,1,2), 
-                sampling_locations = sapply(strsplit(cells, '_'), "[[", 1));
 
-t_lesions = rename_taxa(nwk, d, label, lesions);
-t_sampling_locations = rename_taxa(nwk, d, label, sampling_locations);
+t_labelled = rename_taxa(nwk, labels, X, {{color_by}});
 
-p <- ggtree(t_lesions, size=.5, color='grey'); 
-p <- p %<+% d;
+p <- ggtree(t_labelled, size=.5, color='grey'); 
 
 tree <- p +
         scale_color_manual(values=palette) +
