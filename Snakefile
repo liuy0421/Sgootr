@@ -50,8 +50,8 @@ rule error_correction:
 
 def get_post_filter_input(ws):
 
-    return "{}/corrected_rc_cna.npz".format(ws.patient), \
-           config[ws.patient]['whitelist']
+    return ws.patient+"/corrected_rc_cna.npz", \
+           config['PATIENTS'][ws.patient]['whitelist']
 
 rule post_filter:
     input:
@@ -147,7 +147,8 @@ rule prune:
     input:
         get_prune_input
     output:
-        "{patient}/t{i}/site_mask.npz"
+        "{patient}/t{i}/site_mask.npz",
+        "{patient}/t{i}/persistence_scores.npz"
     params:
         kappa = config['KAPPA'],
         partition_validity_threshold = config['PARTITION_VALIDITY_THRESHOLD']

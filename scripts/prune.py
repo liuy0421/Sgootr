@@ -61,7 +61,7 @@ def compute_internal_persistence_score(i, leaves, partition_validity_threshold):
 if __name__ == "__main__":
 
     # work-around for snakemake env bug
-    f_nwk, f_msk, f_sts, f_out, f_kpa, f_pvt, f_tds, f_log = sys.argv[1:]
+    f_nwk, f_msk, f_sts, f_out, f_sco, f_kpa, f_pvt, f_tds, f_log = sys.argv[1:]
 
     f = open(f_log, 'w')
     sys.stderr = sys.stdout = f
@@ -132,6 +132,10 @@ if __name__ == "__main__":
     pruned = (persistence_scores <= cutoff) | \
              (np.isnan(persistence_scores) & mask)
 
+    f.write('[{}] with a {} cutoff of {}, {} sites have persistence ' \
+            'score <= to that\n'.format(datetime.now(), kappa, cutoff, \
+                                      np.sum(persistence_scores <= cutoff)))
+
     if np.sum(mask) == mask.shape[0]: # if at iteration 0
         iteration = 0
     else:
@@ -140,6 +144,7 @@ if __name__ == "__main__":
     msk[pruned] = iteration
 
     np.savez(f_out, mask=msk)
+    np.savez(f_sco, scores=persistence_scores)
     f.write('[{}] {} sites remaining after pruning\n'.format(datetime.now(), \
                                                              np.sum(np.isinf(msk))))
 
