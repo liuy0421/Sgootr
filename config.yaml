@@ -1,3 +1,4 @@
+OUTDIR: /data/CDSLSahinalp/yuelin/
 DEFAULT_CNA: 2
 E: .01
 SITE_COVERAGE_THRESHOLD: .66
@@ -11,12 +12,12 @@ D0010: .5
 D0011: 1
 D1011: .5
 MAX_ITER: 20
-KAPPA: .1
+KAPPA: .15
 PARTITION_VALIDITY_THRESHOLD: .5
 MINIMUM_SUBTREE_SIZE: .05
 
 PATIENTS:
-    CRC01: 
+    CRC01_15pi: 
         methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_met_read_count_mat_uncorr.npz
         unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_unmet_read_count_mat_uncorr.npz
         cna: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CpG_CNA_calls.npz
