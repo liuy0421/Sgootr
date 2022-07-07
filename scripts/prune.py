@@ -61,16 +61,19 @@ def compute_internal_persistence_score(i, leaves, partition_validity_threshold):
 if __name__ == "__main__":
 
     # work-around for snakemake env bug
-    f_nwk, f_msk, f_sts, f_out, f_sco, f_kpa, f_pvt, f_tds, f_log = sys.argv[1:]
+    f_nwk, f_msk, f_sts, f_out, f_sco, f_kpa, f_pvt, f_mss, f_tds, f_log = sys.argv[1:]
 
     f = open(f_log, 'w')
     sys.stderr = sys.stdout = f
 
     kappa = float(f_kpa)
     assert (kappa > 0) and (kappa < 1), 'Kappa must be a fraction.'
-    partition_validity_threshold = float(f_pvt)
+    partition_validity_threshold, minimum_subtree_size = float(f_pvt), float(f_mss)
     assert (partition_validity_threshold > 0) and (partition_validity_threshold < 1), \
            'partition_validity_threshold must be a fraction.'    
+    assert (minimum_subtree_size > 0) and (minimum_subtree_size < 1), \
+           'minimum_subtree_size must be a fraction.'
+
 
     f.write('[{}] gmelin-larch is perfroming site pruning with ' \
             'kappa={}\n'.format(datetime.now(), kappa))
@@ -83,9 +86,13 @@ if __name__ == "__main__":
     ####
     #   1. compute persistence score for each remaining site at each internal node
     ####     
+    min_nodes = round(sts.shape[0] * minimum_subtree_size)
+    max_nodes = sts.shape[0] - min_nodes
     f.write('[{}] gmelin-larch is computing persistence scores for {} ' \
             'remaining sites\n'.format(datetime.now(), np.sum(mask)))
-    internal_leaves = [n.subset() for n in tree.non_tips()]
+    internal_leaves = [n.subset() for n in tree.non_tips() if \
+                       len(n.subset()) >= min_nodes and \
+                       len(n.subset()) <= max_nodes]
     jobs = enumerate_jobs(internal_leaves, partition_validity_threshold)
     mps = allocate_shared_buffer(np.float64, (len(internal_leaves), mask.shape[0]))
     statuses = allocate_shared_buffer(sts.dtype, sts.shape)

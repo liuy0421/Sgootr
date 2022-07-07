@@ -129,7 +129,7 @@ rule build_tree:
     log:
         "{patient}/logs/t{i}/build_tree.log"
     conda:
-        "gmelin-larch"
+        "envs/skbio.yaml"
     shell:
         "python scripts/build_tree.py {output} {params.root} {log} {input}"
 
@@ -151,16 +151,18 @@ rule prune:
         "{patient}/t{i}/persistence_scores.npz"
     params:
         kappa = config['KAPPA'],
-        partition_validity_threshold = config['PARTITION_VALIDITY_THRESHOLD']
+        partition_validity_threshold = config['PARTITION_VALIDITY_THRESHOLD'],
+        minimum_subtree_size = config['MINIMUM_SUBTREE_SIZE']
     threads:
         4
     log:
         "{patient}/logs/t{i}/prune.log"
     conda:
-        "gmelin-larch"
+        "envs/skbio.yaml"
     shell:
         "python scripts/prune.py {input} {output} {params.kappa} " \ 
-        "{params.partition_validity_threshold} {threads} {log}"
+        "{params.partition_validity_threshold} {params.minimum_subtree_size} " \
+        "{threads} {log}"
 
 
 def get_visualize_input(ws):
