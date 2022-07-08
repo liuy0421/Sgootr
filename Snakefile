@@ -38,7 +38,7 @@ rule error_correction:
     input:
         OUTDIR+"{patient}/rc_cna.npz"
     output:
-        OUTDIR+"{patient}/corrected_rc_cna.npz"
+        temp(OUTDIR+"{patient}/corrected_rc_cna.npz")
     params:
         e = config['E']
     threads: 

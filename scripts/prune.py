@@ -90,9 +90,9 @@ if __name__ == "__main__":
     max_nodes = sts.shape[0] - min_nodes
     f.write('[{}] gmelin-larch is computing persistence scores for {} ' \
             'remaining sites\n'.format(datetime.now(), np.sum(mask)))
-    internal_leaves = [n.subset() for n in tree.non_tips() if \
-                       len(n.subset()) >= min_nodes and \
-                       len(n.subset()) <= max_nodes]
+    internal_names, internal_leaves = zip(*[(n.name, n.subset()) for n in tree.non_tips() if \
+                                            len(n.subset()) >= min_nodes and \
+                                            len(n.subset()) <= max_nodes])
     jobs = enumerate_jobs(internal_leaves, partition_validity_threshold)
     mps = allocate_shared_buffer(np.float64, (len(internal_leaves), mask.shape[0]))
     statuses = allocate_shared_buffer(sts.dtype, sts.shape)
@@ -121,12 +121,15 @@ if __name__ == "__main__":
     #   2. for each site, take the max score across all internal nodes as its
     #      final tree persistence score  
     ####
-    persistence_scores = np.nanmax(arr_mps, axis=0)
-    no_scores = np.sum(np.isnan(persistence_scores[mask]))
+    arr_mps[np.isnan(arr_mps)] = -1 # suppress runtime warning and ValueError
+    persistence_nodes, persistence_scores = np.nanargmax(arr_mps, axis=0), \
+                                            np.nanmax(arr_mps, axis=0)
     persistence_scores[~mask] = np.nan
+    no_scores = (persistence_scores==-1)
+    persistence_scores[no_scores] = np.nan
 
     f.write('[{}] done computing persistence scores ({}/{} sites have no scores)' \
-            ', pruning sites\n'.format(datetime.now(), no_scores, np.sum(mask)))
+            ', pruning sites\n'.format(datetime.now(), np.sum(no_scores), np.sum(mask)))
   
     ####
     #   3. update mask by excluding a) sites without valid persistence scores, and b)
@@ -149,9 +152,11 @@ if __name__ == "__main__":
         iteration = np.amax(msk[~np.isinf(msk)]) + 1
 
     msk[pruned] = iteration
+    nodes = np.array(internal_names)[persistence_nodes]
+    nodes[~mask | no_scores] = ''
 
     np.savez(f_out, mask=msk)
-    np.savez(f_sco, scores=persistence_scores)
+    np.savez(f_sco, scores=persistence_scores, nodes=nodes)
     f.write('[{}] {} sites remaining after pruning\n'.format(datetime.now(), \
                                                              np.sum(np.isinf(msk))))
 

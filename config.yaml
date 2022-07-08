@@ -12,12 +12,12 @@ D0010: .5
 D0011: 1
 D1011: .5
 MAX_ITER: 20
-KAPPA: .15
+KAPPA: .1
 PARTITION_VALIDITY_THRESHOLD: .5
 MINIMUM_SUBTREE_SIZE: .05
 
 PATIENTS:
-    CRC01_15pi: 
+    CRC01_10pi: 
         methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_met_read_count_mat_uncorr.npz
         unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_unmet_read_count_mat_uncorr.npz
         cna: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CpG_CNA_calls.npz
