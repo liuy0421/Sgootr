@@ -2,7 +2,7 @@
     post_filter.py <corrected_rc_cna.npz>
 '''
 
-import sys, numpy as np
+import sys, numpy as np, pandas as pd
 from datetime import datetime
 
 if __name__ == "__main__":
@@ -22,9 +22,13 @@ if __name__ == "__main__":
         whitelisted_cells = [x.strip() for x in fi.readlines()]
         whitelist = np.array([(x in whitelisted_cells) for x in cells])
 
+    _df = pd.read_csv(snakemake.input[2], index_col=0)
+
     assert np.array_equal(np.isnan(_N), np.isnan(_M)), \
            "Methylated and unmethylated read matrices have different coverage."
-    
+    assert np.array_equal(_df['cell'].values, cells), \
+           "Cells in labels file do not match those in read matrices."    
+
     '''
         given read error corrected input matrices, further remove (in 
         particular order):
@@ -51,6 +55,10 @@ if __name__ == "__main__":
                                   cna=_C[selected_cells,:][:,selected_sites], \
                                   rows=obj['rows'][selected_cells], \
                                   cols=obj['cols'][selected_sites])
+
+    f.write('[{}] gmelin-larch is subsetting label file\n'.format(datetime.now()))
+    df = _df[_df['cell'].isin(cells[selected_cells])].reset_index(drop=True)
+    df.to_csv(snakemake.output[1])
 
     f.write('[DONE]')
     f.close()

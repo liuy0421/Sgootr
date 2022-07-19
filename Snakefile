@@ -52,13 +52,15 @@ rule error_correction:
 def get_post_filter_input(ws):
 
     return OUTDIR+ws.patient+"/corrected_rc_cna.npz", \
-           config['PATIENTS'][ws.patient]['whitelist']
+           config['PATIENTS'][ws.patient]['whitelist'], \
+           config['PATIENTS'][ws.patient]['labels']
 
 rule post_filter:
     input:
         get_post_filter_input
     output:
-        OUTDIR+"{patient}/input.npz"
+        OUTDIR+"{patient}/input.npz",
+        OUTDIR+"{patient}/labels.csv"
     params: 
         site_coverage_threshold = config['SITE_COVERAGE_THRESHOLD'],
         cell_coverage_threshold = config['CELL_COVERAGE_THRESHOLD']
@@ -169,7 +171,7 @@ rule prune:
 def get_visualize_input(ws):
 
     return OUTDIR+"{}/t{}/tree.nwk".format(ws.patient, ws.i), \
-           config['PATIENTS'][ws.patient]["labels"]
+           OUTDIR+"{patient}/labels.csv"
 
 rule visualize:
     input:
