@@ -128,13 +128,14 @@ rule build_tree:
         OUTDIR+"{patient}/t{i}/tree.nwk",
         OUTDIR+"{patient}/t{i}/RF.txt"
     params:
-        root = lambda ws: config['PATIENTS'][ws.patient]['root']
+        root = lambda ws: config['PATIENTS'][ws.patient]['root'],
+        algo = config['ALGO']
     log:
         OUTDIR+"{patient}/logs/t{i}/build_tree.log"
     conda:
-        "envs/skbio.yaml"
+        "envs/gmelin-larch.yml"
     shell:
-        "python scripts/build_tree.py {output} {params.root} {log} {input}"
+        "python scripts/build_tree.py {output} {params} {log} {input}"
 
 
 def get_prune_input(ws):
@@ -161,7 +162,7 @@ rule prune:
     log:
         OUTDIR+"{patient}/logs/t{i}/prune.log"
     conda:
-        "envs/skbio.yaml"
+        "envs/gmelin-larch.yml"
     shell:
         "python scripts/prune.py {input} {output} {params.kappa} " \ 
         "{params.partition_validity_threshold} {params.minimum_subtree_size} " \

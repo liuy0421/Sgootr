@@ -1,8 +1,8 @@
 OUTDIR: /data/CDSLSahinalp/yuelin/
 DEFAULT_CNA: 2
 E: .01
-SITE_COVERAGE_THRESHOLD: .66
-CELL_COVERAGE_THRESHOLD: .66
+SITE_COVERAGE_THRESHOLD: .1 #.66
+CELL_COVERAGE_THRESHOLD: .1 #.66
 STATUS_CONFIDENCE_THRESHOLD: 1 
 P00: .33
 P10: .33
@@ -11,13 +11,14 @@ P: .5
 D0010: .5
 D0011: 1
 D1011: .5
-MAX_ITER: 20
-KAPPA: .1
+ALGO: F # (F)astME v.s. (N)eighbor-joining
+MAX_ITER: 40
+KAPPA: .10
 PARTITION_VALIDITY_THRESHOLD: .5
 MINIMUM_SUBTREE_SIZE: .05
 
 PATIENTS:
-    CRC01_10pi: 
+    FastME_CRC01_10pi: 
         methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_met_read_count_mat_uncorr.npz
         unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_unmet_read_count_mat_uncorr.npz
         cna: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CpG_CNA_calls.npz
@@ -48,3 +49,59 @@ PATIENTS:
                 MP3: "#4FB31A"
                 MP4: "#489C22"
                 MP5: "#32780D"
+#    CRC11_7.5pi:
+#        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC11_met_read_count_mat_uncorr.npz
+#        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC11_unmet_read_count_mat_uncorr.npz
+#        cna: 
+#        whitelist: /data/CDSLSahinalp/yuelin/CRC11_whitelist.txt
+#        root: NC_389
+#        labels: /data/CDSLSahinalp/yuelin/CRC11_labels.csv
+#        palette:
+#            lesion:
+#                NC: "#A7A7A7"
+#                LN: "#EF8432"
+#                PT: "#487DB2"
+#            sampling_location:
+#                NC: "#A7A7A7"
+#                LN1: "#F8CA98"
+#                PT1: "#AFD1F2"
+#                PT2: "#739CC5"
+#                PT3: "#42719F"
+#                PT4: "#205183"
+#    CRC13_11pi:
+#        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC13_met_read_count_mat_uncorr.npz
+#        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC13_unmet_read_count_mat_uncorr.npz
+#        cna: 
+#        whitelist: /data/CDSLSahinalp/yuelin/CRC13_whitelist.txt
+#        root: NC_441
+#        labels: /data/CDSLSahinalp/yuelin/CRC13_labels.csv
+#        palette:
+#            lesion:
+#                NC: "#A7A7A7"
+#                LN: "#EF8432"
+#                PT: "#487DB2"
+#            sampling_location:
+#                NC: "#A7A7A7"
+#                LN1: "#F8CA98"
+#                LN2: "#F38419"
+#                LN3: "#FF6803"
+#                PT1: "#AFD1F2"
+#                PT2: "#739CC5"
+#                PT3: "#42719F"
+#                PT4: "#205183"
+#                PT5: "#003061"
+#    MGH105_10pi:
+#        methylated_rc: /data/liuy45/landau-data/MGH105-methylated-rc-bc.npz
+#        unmethylated_rc: /data/liuy45/landau-data/MGH105-unmethylated-rc-bc.npz
+#        cna: 
+#        whitelist: /data/liuy45/landau-data/MGH105-whitelist.txt
+#        root: MGH105C_P8_A1_S1_L002.ACAGAC
+#        labels: /data/liuy45/landau-data/MGH105-labels.csv
+#        palette:
+#            sampling_location:
+#                I: "#A7A7A7"
+#                A: "#487DB2"
+#                B: "#EF8432"
+#                C: "#D1342B"
+#                D: "#68AC57"
+
