@@ -97,8 +97,7 @@ if __name__ == "__main__":
             for i in range(n_cells):
                 fi.write('{}\t{}\n'.format(i, \
                                            '\t'.join([str(x) for x in pwd[i]])))
-
-    tree = build(f_mat, str(np.where(cells==root)[0][0]), algo)
+        tree = build(f_mat, str(np.where(cells==root)[0][0]), algo)
 
     with open(f_out_nwk, 'w') as fi:
         fi.write(str(tree))
