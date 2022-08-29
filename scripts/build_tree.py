@@ -35,7 +35,7 @@ def build(dm, root, algo):
         unrooted_tree = skbio.tree.nj(dm)
     elif algo == 'F':
         f_out = dm[:-10] + 'fastme.nwk'
-        os.system('fastme -i {} -o {}'.format(dm, f_out))
+        os.system('fastme -i {} -o {} -n -s'.format(dm, f_out))
         while not os.path.exists(f_out):
             continue
         unrooted_tree = skbio.TreeNode.read(f_out)
