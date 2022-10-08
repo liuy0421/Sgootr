@@ -43,8 +43,8 @@ def compute_internal_persistence_score(i, leaves, partition_validity_threshold):
     no_status_1 = np.sum(np.isnan(subtree1_statuses), axis=0)
     no_status_2 = np.sum(np.isnan(subtree2_statuses), axis=0)
     size1, size2 = subtree1_statuses.shape[0], subtree2_statuses.shape[0]
-    valid1, valid2 = no_status_1 < partition_validity_threshold * size1, \
-                     no_status_2 < partition_validity_threshold * size2 
+    valid1, valid2 = no_status_1 < (1-partition_validity_threshold) * size1, \
+                     no_status_2 < (1-partition_validity_threshold) * size2 
 
     '''
         construct leaf status distributions for subsets induced by given partition
