@@ -4,6 +4,6 @@ This is the repository for `Sgootr`, a tool that jointly infers a tumor lineage 
 
 ```console
 -$ git clone https://github.com/liuy0421/Sgootr.git
--$ cd gmelin-larch
+-$ cd sgootr
 -$ bash setup.sh
 ```
