@@ -1,4 +1,4 @@
-OUTDIR: /data/CDSLSahinalp/yuelin/
+OUTDIR: ./ # specify output directory, ending with '/'
 DEFAULT_CNA: 2
 E: .01
 SITE_COVERAGE_THRESHOLD: .66
@@ -12,213 +12,40 @@ D0010: .5
 D0011: 1
 D1011: .5
 ALGO: N # (F)astME v.s. (N)eighbor-joining
-MAX_ITER: 80
-KAPPA: .025
+MAX_ITER: 40
+KAPPA: .1
 PARTITION_VALIDITY_THRESHOLD: .5
 MINIMUM_SUBTREE_SIZE: .05
 
 PATIENTS:
-#    FastME_CRC01_7.5pi: 
-#        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_met_read_count_mat_uncorr.npz
-#        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC01_unmet_read_count_mat_uncorr.npz
-#        cna: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CpG_CNA_calls.npz
-#        whitelist: /data/CDSLSahinalp/yuelin/CRC01_whitelist.txt
-#        root: NC_507
-#        labels: /data/CDSLSahinalp/yuelin/CRC01_labels.csv
-#        palette:
-#            lesion:
-#                NC: "#A7A7A7"
-#                LN: "#EF8432"
-#                PT: "#487DB2"
-#                ML: "#D1342B"
-#                MP: "#68AC57"
-#            sampling_location:
-#                NC: "#A7A7A7"
-#                LN1: "#F8CA98"
-#                LN2: "#F38419"
-#                PT1: "#AFD1F2"
-#                PT2: "#739CC5"
-#                PT3: "#42719F"
-#                PT4: "#205183"
-#                ML1: "#E8A9A8"
-#                ML2: "#CC3426"
-#                ML3: "#B94C47"
-#                ML4: "#89221B"
-#                MP1: "#DBF7D4"
-#                MP2: "#9EF185"
-#                MP3: "#4FB31A"
-#                MP4: "#489C22"
-#                MP5: "#32780D"
-    CRC02_2.5pi:
-        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC02_met_read_count_mat_uncorr.npz
-        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC02_unmet_read_count_mat_uncorr.npz
-        cna: 
-        whitelist: /data/CDSLSahinalp/yuelin/CRC02_whitelist.txt
-        root: NC_344
-        labels: /data/CDSLSahinalp/yuelin/CRC02_labels.csv
+    CRC01: 
+        methylated_rc: data/CRC01_methylated_read_counts.npz
+        unmethylated_rc: data/CRC01_unmethylated_read_counts.npz
+        cna: data/CRC01_CNA_calls.npz
+        whitelist: data/CRC01_whitelist.txt
+        root: NC_507
+        labels: data/CRC01_labels.csv
         palette:
             lesion:
                 NC: "#A7A7A7"
+                LN: "#EF8432"
                 PT: "#487DB2"
                 ML: "#D1342B"
+                MP: "#68AC57"
             sampling_location:
                 NC: "#A7A7A7"
-                PT2: "#AFD1F2"
-                PT5: "#739CC5"
-                PT6: "#42719F"
+                LN1: "#F8CA98"
+                LN2: "#F38419"
+                PT1: "#AFD1F2"
+                PT2: "#739CC5"
+                PT3: "#42719F"
+                PT4: "#205183"
                 ML1: "#E8A9A8"
-                ML3: "#CC3426"
-                ML4: "#B94C47"
-#    FastME_CRC10_7.5pi:
-#        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC10_met_read_count_mat_uncorr.npz
-#        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC10_unmet_read_count_mat_uncorr.npz
-#        cna:
-#        whitelist: /data/CDSLSahinalp/yuelin/CRC10_whitelist.txt
-#        root: NC_201
-#        labels: /data/CDSLSahinalp/yuelin/CRC10_labels.csv
-#        palette:
-#            lesion:
-#                NC: "#A7A7A7"
-#                LN: "#EF8432"
-#                PT: "#487DB2"
-#            sampling_location:
-#                NC: "#A7A7A7"
-#                LN1: "#F8CA98"
-#                LN3: "#F38419"
-#                PT1: "#AFD1F2"
-#                PT2: "#739CC5"
-#                PT3: "#42719F"
-#                PT4: "#205183"
-#    FastME_CRC11_7.5pi:
-#        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC11_met_read_count_mat_uncorr.npz
-#        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC11_unmet_read_count_mat_uncorr.npz
-#        cna: 
-#        whitelist: /data/CDSLSahinalp/yuelin/CRC11_whitelist.txt
-#        root: NC_389
-#        labels: /data/CDSLSahinalp/yuelin/CRC11_labels.csv
-#        palette:
-#            lesion:
-#                NC: "#A7A7A7"
-#                LN: "#EF8432"
-#                PT: "#487DB2"
-#            sampling_location:
-#                NC: "#A7A7A7"
-#                LN1: "#F8CA98"
-#                PT1: "#AFD1F2"
-#                PT2: "#739CC5"
-#                PT3: "#42719F"
-#                PT4: "#205183"
-#    FastME_CRC12_2.5pi:
-#        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC12_met_read_count_mat_uncorr.npz
-#        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC12_unmet_read_count_mat_uncorr.npz
-#        cna: 
-#        whitelist: /data/CDSLSahinalp/yuelin/CRC12_whitelist.txt
-#        root: NC_233
-#        labels: /data/CDSLSahinalp/yuelin/CRC12_labels.csv
-#        palette:
-#            lesion:
-#                NC: "#A7A7A7"
-#                LN: "#EF8432"
-#                PT: "#487DB2"
-#            sampling_location:
-#                NC: "#A7A7A7"
-#                LN1: "#F8CA98"
-#                PT1: "#AFD1F2"
-#                PT2: "#739CC5"
-#                PT3: "#42719F"
-#                PT5: "#205183"
-#    FastME_CRC13_5pi:
-#        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC13_met_read_count_mat_uncorr.npz
-#        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC13_unmet_read_count_mat_uncorr.npz
-#        cna: 
-#        whitelist: /data/CDSLSahinalp/yuelin/CRC13_whitelist.txt
-#        root: NC_441
-#        labels: /data/CDSLSahinalp/yuelin/CRC13_labels.csv
-#        palette:
-#            lesion:
-#                NC: "#A7A7A7"
-#                LN: "#EF8432"
-#                PT: "#487DB2"
-#            sampling_location:
-#                NC: "#A7A7A7"
-#                LN1: "#F8CA98"
-#                LN2: "#F38419"
-#                LN3: "#FF6803"
-#                PT1: "#AFD1F2"
-#                PT2: "#739CC5"
-#                PT3: "#42719F"
-#                PT4: "#205183"
-#                PT5: "#003061"
-#    FastME_CRC14_7.5pi:
-#        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC14_met_read_count_mat_uncorr.npz
-#        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC14_unmet_read_count_mat_uncorr.npz
-#        cna:
-#        whitelist: /data/CDSLSahinalp/yuelin/CRC14_whitelist.txt
-#        root: NC_025
-#        labels: /data/CDSLSahinalp/yuelin/CRC14_labels.csv
-#        palette:
-#            lesion:
-#                NC: "#A7A7A7"
-#                LN: "#EF8432"
-#                PT: "#487DB2"
-#            sampling_location:
-#                NC: "#A7A7A7"
-#                LN1: "#F8CA98"
-#                LN2: "#F38419"
-#                PT1: "#AFD1F2"
-#                PT3: "#739CC5"
-#                PT4: "#42719F"
-#                PT5: "#205183"
-#    FastME_CRC15_5pi:
-#        methylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC15_met_read_count_mat_uncorr.npz
-#        unmethylated_rc: /data/CDSLSahinalp/bian-colorectal/final_hopefully/CRC15_unmet_read_count_mat_uncorr.npz
-#        cna:
-#        whitelist: /data/CDSLSahinalp/yuelin/CRC15_whitelist.txt
-#        root: NC_525
-#        labels: /data/CDSLSahinalp/yuelin/CRC15_labels.csv
-#        palette:
-#            lesion:
-#                NC: "#A7A7A7"
-#                LN: "#EF8432"
-#                PT: "#487DB2"
-#                ML: "#D1342B"
-#                MO: "#68AC57"
-#            sampling_location:
-#                NC: "#A7A7A7"
-#                LN1: "#F8CA98"
-#                LN2: "#F38419"
-#                LN3: "#FF6803"
-#                LN4: "#C24F02"
-#                LN5: "#7A3100"
-#                PT1: "#AFD1F2"
-#                PT2: "#739CC5"
-#                PT3: "#42719F"
-#                PT4: "#205183"
-#                PT5: "#011B36"
-#                ML1: "#E8A9A8"
-#                ML2: "#CC3426"
-#                ML3: "#B94C47"
-#                ML4: "#89221B"
-#                ML5: "#631914"
-#                ML6: "4A0501"
-#                MO1: "#DA8EE7"
-#                MO2: "#BE2ED6"
-#                MO3: "#A000C8"
-#                MO4: "#7600BC"
-#                MO5: "#4C00B0"
-#                MO6: "#30016E"
-#    MGH105_10pi:
-#        methylated_rc: /data/liuy45/landau-data/MGH105-methylated-rc-bc.npz
-#        unmethylated_rc: /data/liuy45/landau-data/MGH105-unmethylated-rc-bc.npz
-#        cna: 
-#        whitelist: /data/liuy45/landau-data/MGH105-whitelist.txt
-#        root: MGH105C_P8_A1_S1_L002.ACAGAC
-#        labels: /data/liuy45/landau-data/MGH105-labels.csv
-#        palette:
-#            sampling_location:
-#                I: "#A7A7A7"
-#                A: "#487DB2"
-#                B: "#EF8432"
-#                C: "#D1342B"
-#                D: "#68AC57"
-
+                ML2: "#CC3426"
+                ML3: "#B94C47"
+                ML4: "#89221B"
+                MP1: "#DBF7D4"
+                MP2: "#9EF185"
+                MP3: "#4FB31A"
+                MP4: "#489C22"
+                MP5: "#32780D"
