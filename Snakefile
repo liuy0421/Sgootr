@@ -133,7 +133,7 @@ rule build_tree:
     log:
         OUTDIR+"{patient}/logs/t{i}/build_tree.log"
     conda:
-        "envs/gmelin-larch.yml"
+        "envs/sgootr.yml"
     shell:
         "python scripts/build_tree.py {output} {params} {log} {input}"
 
@@ -162,7 +162,7 @@ rule prune:
     log:
         OUTDIR+"{patient}/logs/t{i}/prune.log"
     conda:
-        "envs/gmelin-larch.yml"
+        "envs/sgootr.yml"
     shell:
         "python scripts/prune.py {input} {output} {params.kappa} " \ 
         "{params.partition_validity_threshold} {params.minimum_subtree_size} " \
