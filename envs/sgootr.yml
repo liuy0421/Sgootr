@@ -14,7 +14,7 @@ dependencies:
   - brotlipy=0.7.0=py38h27cfd23_1003
   - ca-certificates=2022.07.19=h06a4308_0
   - cachecontrol=0.12.6=pyhd3eb1b0_0
-  - certifi=2022.6.15=py38h06a4308_0
+  - certifi=2022.9.24=py38h06a4308_0
   - cffi=1.15.0=py38hd667e15_1
   - charset-normalizer=2.0.4=pyhd3eb1b0_0
   - cryptography=37.0.1=py38h9ce1e76_0
@@ -97,6 +97,7 @@ dependencies:
   - scikit-bio=0.5.6=py38h6323ea4_0
   - scikit-learn=1.0.2=py38h51133e4_1
   - scipy=1.7.3=py38hc147768_0
+  - seaborn=0.12.0=py38h06a4308_0
   - setuptools=61.2.0=py38h06a4308_0
   - six=1.16.0=pyhd3eb1b0_1
   - sqlite=3.38.3=hc218d9a_0
