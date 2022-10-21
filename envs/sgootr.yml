@@ -66,6 +66,7 @@ dependencies:
   - natsort=7.1.1=pyhd3eb1b0_0
   - ncurses=6.3=h7f8727e_2
   - nest-asyncio=1.5.5=py38h06a4308_0
+  - networkx=2.8.4=py38h06a4308_0
   - numexpr=2.8.1=py38h807cd23_2
   - numpy=1.22.3=py38he7a7128_0
   - numpy-base=1.22.3=py38hf524024_0
