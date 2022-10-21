@@ -23,3 +23,16 @@ Gao, S., Mao, Y., Dong, J., Zhu, P., Xiu, D., Yan, L., Wen, L., Qiao, J., Tang, 
 -$ tar -xf data.tar.gz
 -$ snakemake --cores <number of cores> --use-conda
 ```
+
+Then, to reproduce panels in Figure 1 in the RECOMB 2023 proceeding submission for `Sgootr`, in the same working directory `Sgootr/`:
+
+```console
+-$ conda env create -f envs/sgootr.yml
+-$ conda activate sgootr
+(sgootr)-$ python -m ipykernel install --user --name sgootr
+(sgootr)-$ conda deactivate
+```
+
+Open `notebooks/CRC01-Analysis.ipynb`, then follow the interactive notebook.
+
+
