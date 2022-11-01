@@ -13,7 +13,7 @@ dependencies:
   - brotli=1.0.9=h5eee18b_7
   - brotli-bin=1.0.9=h5eee18b_7
   - brotlipy=0.7.0=py38h27cfd23_1003
-  - ca-certificates=2022.07.19=h06a4308_0
+  - ca-certificates=2022.10.11=h06a4308_0
   - cachecontrol=0.12.6=pyhd3eb1b0_0
   - certifi=2022.9.24=py38h06a4308_0
   - cffi=1.15.1=py38h74dc2b5_0
@@ -24,6 +24,7 @@ dependencies:
   - debugpy=1.5.1=py38h295c915_0
   - decorator=5.1.1=pyhd3eb1b0_0
   - entrypoints=0.4=py38h06a4308_0
+  - et_xmlfile=1.1.0=py38h06a4308_0
   - executing=0.8.3=pyhd3eb1b0_0
   - fastme=2.1.6.1=hec16e2b_1
   - fonttools=4.25.0=pyhd3eb1b0_0
@@ -76,6 +77,7 @@ dependencies:
   - numexpr=2.8.3=py38h807cd23_0
   - numpy=1.22.3=py38he7a7128_0
   - numpy-base=1.22.3=py38hf524024_0
+  - openpyxl=3.0.10=py38h5eee18b_0
   - openssl=1.1.1q=h7f8727e_0
   - packaging=21.3=pyhd3eb1b0_0
   - pandas=1.4.4=py38h6a678d5_0
