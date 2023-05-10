@@ -1,3 +1,6 @@
+# [5/10/23] Important Note: this repository is deprecated - please see the official repository for [Sgootr](https://github.com/algo-cancer/Sgootr).
+
+
 This is the repository for `Sgootr`, a tool that jointly infers a tumor lineage tree and selects lineage-informative features using single-cell methylation sequencing data.
 
 ![Schema Figure for Sgootr](/assets/sysarch.png)
